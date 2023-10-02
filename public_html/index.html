@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>Whatever</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style = "overflow: auto;">
+        <div id= "a">
+            <h2>
+                Select how many boxes you want to play with
+            </h2>
+            <select id="selectid">
+                <option value="8">8x8</option>
+                <option value="16">16x16</option>
+            </select>
+            <button onclick="run()">Start</button>
+        </div>    
+        <p id = "p"></p>
+        <div id="r" style = "visibility:hidden;">
+            <button onclick="reset()">Restart</button>
+            <br>
+            <br>
+        </div>
+        <script>
+            let ar=[];
+            let random=0;
+            let are=[];
+            function run() {
+              var x = document.getElementById("selectid").selectedIndex;
+              y = document.getElementsByTagName("option")[x].value;
+              document.getElementById("p").innerHTML = "The selected option has value equals " + y + ".";
+              document.getElementById("a").style.visibility = "hidden";
+              document.getElementById("r").style.visibility = "visible";
+              for(let i=0; i<(y*y)/2;i++){
+                  ar.push(i);
+                  ar.push(i);
+                  are.push(0);
+              }
+              for ( i=0; i<y; i++){
+                  for (let j=0; j<y; j++){
+                    random=Math.floor(Math.random()*(y*y/2)) ;
+                    while(are[random]===2){
+                        random=Math.floor(Math.random()*(y*y/2)) ;
+                    }
+                      are[random]++;
+                    var button = document.createElement("button");
+                      button.innerHTML = " "+random;
+                      button.outerHTML = ar.splice();
+                      button.style = "padding: 45px 45px;";
+                      var div = document.getElementById("r");
+                      div.appendChild(button);
+                      button.addEventListener ("click", function() {
+                          button.innerHTML = "";
+                      });
+                    }
+                    document.getElementById("r").innerHTML +='<br>';
+              }
+            }
+            function reset() {
+              var x = null;
+              y = null;
+              document.getElementById("p").innerHTML = "";
+              document.getElementById("r").innerHTML = "";
+              document.getElementById("r").style.visibility = "hidden";
+              document.getElementById("a").style.visibility = "visible";
+            }
+        </script>
+    </body>
+</html>
