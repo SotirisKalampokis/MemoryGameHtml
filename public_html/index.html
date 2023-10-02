@@ -40,13 +40,12 @@
               for ( i=0; i<y; i++){
                   for (let j=0; j<y; j++){
                     random=Math.floor(Math.random()*(y*y/2)) ;
-                    while(are[random]===2){
+                    while(are[random]===2){ 
                         random=Math.floor(Math.random()*(y*y/2)) ;
                     }
                       are[random]++;
                     var button = document.createElement("button");
                       button.innerHTML = " "+random;
-                      button.outerHTML = ar.splice();
                       button.style = "padding: 45px 45px;";
                       var div = document.getElementById("r");
                       div.appendChild(button);
