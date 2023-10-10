@@ -1,5 +1,17 @@
 <html>
     <head>
+        <style>
+        .wrapper1 {
+                width: 45px;
+                height: 45px;
+                background: red;
+        }
+        .wrapper2 {
+                width: 45px;
+                height: 45px;
+                background: white;
+        }
+        </style>
         <title>Whatever</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,24 +29,22 @@
         </div>    
         <p id = "p"></p>
         <div id="r" style = "visibility:hidden;">
-            <button onclick="reset()">Restart</button>
-            <br>
-            <br>
         </div>
+        <br>
+        <div id="t" style = "visibility:hidden;"><button onclick="reset('r')">Restart</button></div>
         <script>
-            let y=0;
-            let ar=[];
-            let random=0;
-            let are=[];
+
             function run() {
+            var y;
+            var ar=[];
+            var random=0;
+            var are=[];
               var x = document.getElementById("selectid").selectedIndex;
               y = document.getElementsByTagName("option")[x].value;
-              document.getElementById("p").innerHTML = "The selected option has value equals " + y + ".";
               document.getElementById("a").style.visibility = "hidden";
               document.getElementById("r").style.visibility = "visible";
+              document.getElementById("t").style.visibility = "visible";
               for(let i=0; i<(y*y)/2;i++){
-                  ar.push(i);
-                  ar.push(i);
                   are.push(0);
               }
               for ( i=0; i<y; i++){
@@ -44,25 +54,33 @@
                         random=Math.floor(Math.random()*(y*y/2)) ;
                     }
                       are[random]++;
+                      ar[i,j]=random;
                     var button = document.createElement("button");
-                      button.innerHTML = " "+random;
-                      button.style = "padding: 45px 45px;";
+                      button.innerHTML = " ";
+                      button.className = "wrapper2";
+                      button.id = 'but'+i*10+j;
                       var div = document.getElementById("r");
                       div.appendChild(button);
-                      button.addEventListener ("click", function() {
-                          button.innerHTML = "";
-                      });
+
                     }
                     document.getElementById("r").innerHTML +='<br>';
               }
+              const btns = document.querySelectorAll('button[id^=but]');
+              btns.forEach(button => {
+              button.addEventListener('click', (event) => {
+                    const isButton = event.target.id;
+                      document.getElementById(isButton).className = "wrapper1";
+                });
+            });
             }
-            function reset() {
-              var x = null;
-              y = null;
-              document.getElementById("p").innerHTML = "";
-              document.getElementById("r").innerHTML = "";
-              document.getElementById("r").style.visibility = "hidden";
-              document.getElementById("a").style.visibility = "visible";
+            
+            function reset(r) {
+                y = 0;
+                document.getElementById("p").innerHTML = " ";
+                document.getElementById("r").innerHTML = " ";
+                document.getElementById("r").style.visibility = "hidden";
+                document.getElementById("t").style.visibility = "hidden";
+                document.getElementById("a").style.visibility = "visible";
             }
         </script>
     </body>
