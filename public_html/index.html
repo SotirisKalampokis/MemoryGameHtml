@@ -36,7 +36,7 @@
 
             function run() {
             var y;
-            var ar=[];
+            const ar=[];
             var random=0;
             var are=[];
               var x = document.getElementById("selectid").selectedIndex;
@@ -48,28 +48,35 @@
                   are.push(0);
               }
               for ( i=0; i<y; i++){
+                  ar[i]=[];
                   for (let j=0; j<y; j++){
                     random=Math.floor(Math.random()*(y*y/2)) ;
                     while(are[random]===2){ 
                         random=Math.floor(Math.random()*(y*y/2)) ;
                     }
-                      are[random]++;
-                      ar[i,j]=random;
+                    are[random]++;
+                    ar[i][j]=random;
                     var button = document.createElement("button");
                       button.innerHTML = " ";
                       button.className = "wrapper2";
-                      button.id = 'but'+i*10+j;
+                      button.id = 'bnt'+i*100+j;
+                      button.value = i*100+j;
                       var div = document.getElementById("r");
                       div.appendChild(button);
 
                     }
                     document.getElementById("r").innerHTML +='<br>';
               }
-              const btns = document.querySelectorAll('button[id^=but]');
+              i=0;
+              j=0;
+              const btns = document.querySelectorAll('button[id^=bnt]');
               btns.forEach(button => {
               button.addEventListener('click', (event) => {
-                    const isButton = event.target.id;
-                      document.getElementById(isButton).className = "wrapper1";
+                    const isButton = event.target;
+                    i = Math.floor(isButton.value / 100);
+                    j=isButton.value % 100;
+                    document.getElementById(isButton.id).className = "wrapper1";
+                    document.getElementById(isButton.id).innerHTML = " "+ar[i][j];
                 });
             });
             }
