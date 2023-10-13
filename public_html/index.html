@@ -4,12 +4,12 @@
         .wrapper1 {
                 width: 45px;
                 height: 45px;
-                background: red;
+                background: white;
         }
         .wrapper2 {
                 width: 45px;
                 height: 45px;
-                background: white;
+                background: blue;
         }
         </style>
         <title>Whatever</title>
@@ -35,50 +35,76 @@
         <script>
 
             function run() {
-            var y;
-            const ar=[];
-            var random=0;
-            var are=[];
-              var x = document.getElementById("selectid").selectedIndex;
-              y = document.getElementsByTagName("option")[x].value;
-              document.getElementById("a").style.visibility = "hidden";
-              document.getElementById("r").style.visibility = "visible";
-              document.getElementById("t").style.visibility = "visible";
-              for(let i=0; i<(y*y)/2;i++){
-                  are.push(0);
-              }
-              for ( i=0; i<y; i++){
-                  ar[i]=[];
-                  for (let j=0; j<y; j++){
-                    random=Math.floor(Math.random()*(y*y/2)) ;
-                    while(are[random]===2){ 
+                var tempid=null;
+                var tempvalue=null;
+                var countertwo=0;
+                var y;
+                const ar=[];
+                var random=0;
+                var are=[];
+                var elems = [];
+                  var x = document.getElementById("selectid").selectedIndex;
+                  y = document.getElementsByTagName("option")[x].value;
+                  document.getElementById("a").style.visibility = "hidden";
+                  document.getElementById("r").style.visibility = "visible";
+                  document.getElementById("t").style.visibility = "visible";
+                  for(let i=0; i<(y*y)/2;i++){
+                      are.push(0);
+                  }
+                  for ( i=0; i<y; i++){
+                      ar[i]=[];
+                      for (let j=0; j<y; j++){
                         random=Math.floor(Math.random()*(y*y/2)) ;
-                    }
-                    are[random]++;
-                    ar[i][j]=random;
-                    var button = document.createElement("button");
-                      button.innerHTML = " ";
-                      button.className = "wrapper2";
-                      button.id = 'bnt'+i*100+j;
-                      button.value = i*100+j;
-                      var div = document.getElementById("r");
-                      div.appendChild(button);
+                        while(are[random]===2){ 
+                            random=Math.floor(Math.random()*(y*y/2)) ;
+                        }
+                        are[random]++;
+                        ar[i][j]=random;
+                        var button = document.createElement("button");
+                          button.innerHTML = " ";
+                          button.className = "wrapper2";
+                          button.name ="gamebuttons";
+                          button.id = 'bnt'+i*100+j;
+                          button.value = i*100+j;
+                          var div = document.getElementById("r");
+                          div.appendChild(button);
 
-                    }
-                    document.getElementById("r").innerHTML +='<br>';
-              }
-              i=0;
-              j=0;
-              const btns = document.querySelectorAll('button[id^=bnt]');
-              btns.forEach(button => {
-              button.addEventListener('click', (event) => {
-                    const isButton = event.target;
-                    i = Math.floor(isButton.value / 100);
-                    j=isButton.value % 100;
-                    document.getElementById(isButton.id).className = "wrapper1";
-                    document.getElementById(isButton.id).innerHTML = " "+ar[i][j];
+                        }
+                        document.getElementById("r").innerHTML +='<br>';
+                  }
+                  i=0;
+                  j=0;
+                  elems = document.getElementsByName("gamebuttons");
+                  const btns = document.querySelectorAll('button[id^=bnt]');
+                  btns.forEach(button => {
+                  button.addEventListener('click', (event) => {
+                        const isButton = event.target;
+                        i = Math.floor(isButton.value / 100);
+                        j=isButton.value % 100;
+                        document.getElementById(isButton.id).className = "wrapper1";
+                        document.getElementById(isButton.id).innerHTML = " "+ar[i][j];
+                        if (countertwo === 0){
+                            tempid=isButton.id;
+                            tempvalue=ar[i][j];
+                            countertwo++;
+                        }
+                        else{
+                            for(var d = 0; d < elems.length; d++) {
+                                    elems[d].disabled = true;
+                            }
+                            setTimeout(function(){
+                                document.getElementById(isButton.id).className = "wrapper2";
+                                document.getElementById(isButton.id).innerHTML = " ";
+                                document.getElementById(tempid).className = "wrapper2";
+                                document.getElementById(tempid).innerHTML = " ";
+                                countertwo=0;
+                                for(var d = 0; d < elems.length; d++) {
+                                    elems[d].disabled = false;
+                                }
+                            },2000);
+                        }
+                    });
                 });
-            });
             }
             
             function reset(r) {
