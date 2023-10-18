@@ -2,14 +2,18 @@
     <head>
         <style>
         .wrapper1 {
-                width: 45px;
-                height: 45px;
-                background: white;
+                width: 60px;
+                height: 60px;
+                background: blue;
+                color: white;
+                vertical-align: top;
+
         }
         .wrapper2 {
-                width: 45px;
-                height: 45px;
-                background: blue;
+                width: 60px;
+                height: 60px;
+                background: white;
+
         }
         </style>
         <title>Whatever</title>
@@ -22,12 +26,12 @@
                 Select how many boxes you want to play with
             </h2>
             <select id="selectid">
+                <option value="4">4x4</option>
                 <option value="8">8x8</option>
                 <option value="16">16x16</option>
             </select>
             <button onclick="run()">Start</button>
         </div>    
-        <p id = "p"></p>
         <div id="r" style = "visibility:hidden;">
         </div>
         <br>
@@ -35,6 +39,7 @@
         <script>
 
             function run() {
+                var img = new Image();
                 var tempid=null;
                 var tempvalue=null;
                 var countertwo=0;
@@ -43,6 +48,7 @@
                 var random=0;
                 var are=[];
                 var elems = [];
+                var gamecounter=0;
                   var x = document.getElementById("selectid").selectedIndex;
                   y = document.getElementsByTagName("option")[x].value;
                   document.getElementById("a").style.visibility = "hidden";
@@ -82,10 +88,10 @@
                         i = Math.floor(isButton.value / 100);
                         j=isButton.value % 100;
                         document.getElementById(isButton.id).className = "wrapper1";
-                        document.getElementById(isButton.id).innerHTML = " "+ar[i][j];
+                        document.getElementById(isButton.id).innerHTML = ar[i][j];
                         if (countertwo === 0){
-                            tempid=isButton.id;
-                            tempvalue=ar[i][j];
+                            tempid = isButton.id;
+                            tempvalue = ar[i][j];
                             countertwo++;
                         }
                         else{
@@ -93,15 +99,25 @@
                                     elems[d].disabled = true;
                             }
                             setTimeout(function(){
-                                document.getElementById(isButton.id).className = "wrapper2";
-                                document.getElementById(isButton.id).innerHTML = " ";
-                                document.getElementById(tempid).className = "wrapper2";
-                                document.getElementById(tempid).innerHTML = " ";
-                                countertwo=0;
+                                if (tempvalue === ar[i][j] && tempid !== isButton.id){
+                                    countertwo=0;
+                                    gamecounter++;
+                                    if(gamecounter === (y*y)/2 ){
+                                        document.getElementById("r").innerHTML = " ";
+                                        img.src="https://cdn.pixabay.com/photo/2014/12/21/07/49/fireworks-574739_1280.jpg";
+                                        document.getElementById("r").appendChild(img);
+                                    }
+                                }else{
+                                    document.getElementById(isButton.id).className = "wrapper2";
+                                    document.getElementById(isButton.id).innerHTML = " ";
+                                    document.getElementById(tempid).className = "wrapper2";
+                                    document.getElementById(tempid).innerHTML = " ";
+                                    countertwo=0;
+                                }
                                 for(var d = 0; d < elems.length; d++) {
                                     elems[d].disabled = false;
                                 }
-                            },2000);
+                            },1000);
                         }
                     });
                 });
@@ -109,7 +125,6 @@
             
             function reset(r) {
                 y = 0;
-                document.getElementById("p").innerHTML = " ";
                 document.getElementById("r").innerHTML = " ";
                 document.getElementById("r").style.visibility = "hidden";
                 document.getElementById("t").style.visibility = "hidden";
